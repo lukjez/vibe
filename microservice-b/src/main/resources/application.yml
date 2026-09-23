@@ -1,0 +1,38 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: microservice-b
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: "com.jez.dto.MessageDto"
+        spring.json.use.type.headers: false
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  # Konfiguracja SMTP (przykładowo Mailtrap / Gmail SMTP)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: twój-login@gmail.com
+    password: twój-app-password
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+app:
+  kafka:
+    topic:
+      messages: "messages-topic"
+      status: "message-status-topic"
+  mail:
+    target-address: "cotozamelodia@gmail.com"
